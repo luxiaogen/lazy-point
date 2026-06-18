@@ -33,7 +33,7 @@ from pathlib import Path
 # ============================================================================
 
 LABEL_DIR = "/root/ds/label"                             # 标注数据根目录 (子文件夹=类别)
-RAW_DIR   = "/root/ds/lys"                               # 原始图片根目录 (子文件夹=类别)
+RAW_DIR   = "/root/ds/images"                            # 原始图片根目录 (子文件夹=类别)
 WORK_DIR  = "/root/code"                                 # 代码目录
 
 YOLO_DATASET_DIR = os.path.join(WORK_DIR, "yolo_dataset")

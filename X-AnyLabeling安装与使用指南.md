@@ -134,7 +134,7 @@ X-AnyLabeling 输出的 JSON 格式兼容 Labelme，结构如下：
 
 ```bash
 # 打开原始图片文件夹进行标注
-anylabeling /path/to/lys/sheep
+anylabeling /path/to/images/sheep
 ```
 
 每个类别标注 20~30 张即可用于训练。

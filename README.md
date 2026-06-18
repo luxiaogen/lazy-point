@@ -48,7 +48,7 @@ source .venv/bin/activate
 │   ├── people/
 │   ├── sheep/
 │   └── container/
-└── lys/            ← 放入待预测的原始图片
+└── images/         ← 放入待预测的原始图片
     ├── people/     ← 人群图片放这里
     ├── sheep/      ← 羊群图片放这里
     └── container/  ← 集装箱图片放这里
@@ -62,7 +62,7 @@ source .venv/bin/activate
 
 ```python
 LABEL_DIR = "/你的数据路径/label"    # 可以为空，但目录需要存在
-RAW_DIR   = "/你的数据路径/lys"      # 待预测图片目录
+RAW_DIR   = "/你的数据路径/images"   # 待预测图片目录
 WORK_DIR  = "/代码所在路径"          # run_pipeline.py 所在目录
 ```
 
@@ -141,7 +141,7 @@ anylabeling predictions/container
 
 1. 用 X-AnyLabeling 打开原始图片文件夹：
    ```bash
-   anylabeling /你的数据/lys/sheep
+   anylabeling /你的数据/images/sheep
    ```
 
 2. 使用 Point 工具在每个目标上点一个点，输入类别标签
@@ -166,7 +166,7 @@ python run_pipeline.py predict          # 用新模型预测
 
 ### 新增类别
 
-在 `label/` 和 `lys/` 下新建类别文件夹（文件夹名即为类别名），放入标注数据和图片，重新训练即可。脚本会自动识别所有类别。
+在 `label/` 和 `images/` 下新建类别文件夹（文件夹名即为类别名），放入标注数据和图片，重新训练即可。脚本会自动识别所有类别。
 
 ### 训练参数调整
 
