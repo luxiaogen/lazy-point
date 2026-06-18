@@ -14,10 +14,13 @@
 ```
 lazy-point/
 ├── run_pipeline.py      # 主脚本（准备数据 + 训练 + 预测）
-├── best.pt              # 预训练权重（container/people/sheep 三类别）
+├── best.pt              # 微调后的权重（container/people/sheep 三类别）
+├── yolov8n.pt           # YOLOv8n 官方预训练权重（用于训练起点）
+├── yolo26n.pt           # YOLOv26n 预训练权重（可选，更新架构）
 ├── requirements.txt     # Python 依赖
 ├── setup.sh             # 一键安装脚本
-└── README.md
+├── README.md
+└── X-AnyLabeling安装与使用指南.md
 ```
 
 ## 环境要求
@@ -139,9 +142,22 @@ x-anylabeling predictions/sheep
 
 如需新增类别，在 `label/` 下新建文件夹放入标注数据，重跑 `python run_pipeline.py all` 即可。
 
+## 权重文件说明
+
+| 文件 | 用途 | 来源 |
+|------|------|------|
+| `best.pt` | 微调后的检测权重，可直接用于 container/people/sheep 三类别预测 | 基于 250 张标注图训练 |
+| `yolov8n.pt` | YOLOv8n 官方预训练权重，作为微调的起点 | Ultralytics 官方 |
+| `yolo26n.pt` | YOLO26n 预训练权重，更新的网络架构，可作为替代训练起点 | Ultralytics 官方 |
+
+如果要用 YOLO26n 替代 YOLOv8n 进行训练，修改 `run_pipeline.py` 中的：
+```python
+MODEL_NAME = "yolo26n"   # 改为 yolo26n
+```
+
 ## 注意事项
 
 - 训练时自动关闭 mosaic/mixup 增强，避免密集小目标导致显存溢出
 - 点标注转换为 24px 小框进行训练，预测时取框中心还原为点
 - 4090/3090 训练约 5-15 分钟
-- 国内服务器下载预训练权重可能很慢，可手动下载 `yolov8n.pt` 放到代码目录
+- 预训练权重 `yolov8n.pt` 和 `yolo26n.pt` 已包含在仓库中，无需额外下载
