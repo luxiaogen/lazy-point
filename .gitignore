@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+yolo_dataset/
+predictions/
+point_detector/
+.DS_Store
+__MACOSX/
