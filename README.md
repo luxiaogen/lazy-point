@@ -133,6 +133,20 @@ anylabeling predictions/container
 - 如果某张图片特别大或特别模糊，建议先在图像处理软件中裁剪出局部区域再标注
 - 审查修正后的数据可以作为新的训练数据，重新训练以提高模型精度
 
+### 批量修正标签名
+
+由于每个类别文件夹下的图片只包含该类别的目标，预测结果中的标签名可能与文件夹名不一致。可以用 `fix_labels.py` 一键修正：
+
+```bash
+# 修正单个类别
+python fix_labels.py predictions/sheep
+
+# 修正所有类别
+python fix_labels.py predictions/
+```
+
+脚本会自动将每个 JSON 中所有 shape 的 label 改为所在文件夹的名称。
+
 ## 训练自己的模型
 
 如果你的场景不在现有 3 个类别中，或者想提高特定场景的精度，可以训练自己的模型。
@@ -198,6 +212,7 @@ python run_pipeline.py predict          # 用新模型预测
 ```
 lazy-point/
 ├── run_pipeline.py                      # 主脚本（数据准备 + 训练 + 预测）
+├── fix_labels.py                        # 批量修正预测 JSON 中的标签名
 ├── best.pt                              # 微调后的权重（container/people/sheep）
 ├── yolov8n.pt                           # YOLOv8n 预训练权重（训练起点）
 ├── yolo26n.pt                           # YOLO26n 预训练权重（可选替代）
