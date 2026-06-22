@@ -32,11 +32,28 @@
 # 克隆仓库
 git clone https://github.com/luxiaogen/lazy-point.git
 cd lazy-point
+```
 
-# 创建虚拟环境并安装依赖
+**macOS / Linux / WSL：**
+```bash
 bash setup.sh
 source .venv/bin/activate
 ```
+
+**Windows (CMD)：**
+```cmd
+setup.bat
+.venv\Scripts\activate
+```
+
+**Windows (PowerShell)：**
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install ultralytics Pillow numpy
+```
+
+> 如果 WSL 报 `python3-venv` 缺失，setup.sh 会自动安装。手动安装：`sudo apt install python3-venv`
 
 ### 第二步：准备图片
 
@@ -217,7 +234,9 @@ lazy-point/
 ├── yolov8n.pt                           # YOLOv8n 预训练权重（训练起点）
 ├── yolo26n.pt                           # YOLO26n 预训练权重（可选替代）
 ├── requirements.txt                     # Python 依赖
-├── setup.sh                             # 一键安装脚本
+├── setup.sh                             # macOS / Linux / WSL 安装脚本
+├── setup.bat                            # Windows CMD 安装脚本
+├── .gitattributes                       # 换行符配置（避免 Windows CRLF 问题）
 ├── README.md                            # 本文档
 └── X-AnyLabeling安装与使用指南.md        # X-AnyLabeling 详细使用文档
 ```
