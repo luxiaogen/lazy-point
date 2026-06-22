@@ -388,6 +388,25 @@ def main():
     LABEL_DIR = args.label_dir
     RAW_DIR = args.raw_dir
 
+    # ---- predict 模式：从模型读取类别，不要求 label 目录 ----
+    if args.step == "predict":
+        model_path = args.model or MODEL_PATH
+        if not os.path.exists(model_path):
+            print(f"[ERROR] 模型不存在: {model_path}")
+            print("请先训练: python run_pipeline.py train")
+            sys.exit(1)
+
+        from ultralytics import YOLO
+        model = YOLO(model_path)
+        # model.names 是 {0: 'class_a', 1: 'class_b', ...} 格式
+        class_map = {name: i for i, name in model.names.items()}
+        print(f"从模型加载类别: {list(class_map.keys())}")
+
+        predict_images(model_path, class_map, device=args.device)
+        print("\n预测完成。用 X-AnyLabeling 打开输出目录审查。")
+        return
+
+    # ---- prepare / train / all 模式：需要 label 目录 ----
     categories = discover_categories()
     if not categories:
         print(f"[ERROR] 在 {LABEL_DIR} 下未发现任何带 JSON 标注的类别文件夹")
@@ -407,15 +426,6 @@ def main():
             yaml_path, class_map = labelme_to_yolo(categories)
         train_model(yaml_path, device=args.device)
         print("\n训练完成。接下来: python run_pipeline.py predict")
-
-    elif args.step == "predict":
-        model_path = args.model or MODEL_PATH
-        if not os.path.exists(model_path):
-            print(f"[ERROR] 模型不存在: {model_path}")
-            print("请先训练: python run_pipeline.py train")
-            sys.exit(1)
-        predict_images(model_path, class_map, device=args.device)
-        print("\n预测完成。用 X-AnyLabeling 打开输出目录审查。")
 
     elif args.step == "all":
         yaml_path, class_map = labelme_to_yolo(categories)
