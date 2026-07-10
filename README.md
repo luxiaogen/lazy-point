@@ -12,13 +12,22 @@
 
 ## 支持的类别
 
-当前预训练权重 `best.pt` 支持 3 类目标：
+仓库提供两套预训练权重：
+
+**`best_6class.pt`（推荐，6 类，596 张标注数据训练）：**
 
 | 类别 | 标签名 | 典型场景 |
 |------|--------|----------|
 | 人群 | `people` | 马拉松、广场、集会等俯拍人群 |
 | 羊群 | `sheep` | 牧场、草地上的羊群航拍 |
 | 集装箱 | `container` | 港口、堆场的集装箱俯拍 |
+| 企鹅 | `penguin` | 企鹅群航拍 |
+| 车辆 | `car` | 停车场、道路车辆航拍 |
+| 大棚 | `greenhouse` | 农业大棚航拍 |
+
+**`best.pt`（旧版，3 类，250 张标注数据训练）：**
+
+仅支持 `people` / `sheep` / `container` 三个类别。
 
 如需新增类别（如太阳能板、向日葵等），参见下方"训练自己的模型"章节。
 
@@ -86,7 +95,10 @@ WORK_DIR  = "/代码所在路径"          # run_pipeline.py 所在目录
 ### 第四步：运行预测
 
 ```bash
-# 直接用 best.pt 预测，跳过训练
+# 用 6 类权重预测（推荐）
+python run_pipeline.py predict --model best_6class.pt --device 0
+
+# 或用旧版 3 类权重
 python run_pipeline.py predict --model best.pt --device 0
 ```
 
@@ -230,7 +242,8 @@ python run_pipeline.py predict          # 用新模型预测
 lazy-point/
 ├── run_pipeline.py                      # 主脚本（数据准备 + 训练 + 预测）
 ├── fix_labels.py                        # 批量修正预测 JSON 中的标签名
-├── best.pt                              # 微调后的权重（container/people/sheep）
+├── best_6class.pt                       # 6 类微调权重（推荐）
+├── best.pt                              # 旧版 3 类微调权重
 ├── yolov8n.pt                           # YOLOv8n 预训练权重（训练起点）
 ├── yolo26n.pt                           # YOLO26n 预训练权重（可选替代）
 ├── requirements.txt                     # Python 依赖
@@ -245,7 +258,8 @@ lazy-point/
 
 | 文件 | 用途 | 来源 |
 |------|------|------|
-| `best.pt` | 微调后的检测权重，可直接预测 container/people/sheep | 基于 250 张标注图训练 |
+| `best_6class.pt` | 6 类检测权重（推荐），支持 container/people/sheep/penguin/car/greenhouse | 基于 596 张标注图训练 |
+| `best.pt` | 旧版 3 类检测权重，支持 container/people/sheep | 基于 250 张标注图训练 |
 | `yolov8n.pt` | YOLOv8n 官方预训练权重，作为微调的起点 | Ultralytics 官方 |
 | `yolo26n.pt` | YOLO26n 预训练权重，更新的网络架构 | Ultralytics 官方 |
 
